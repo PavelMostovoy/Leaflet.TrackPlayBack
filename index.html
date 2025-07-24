@@ -37,7 +37,8 @@
             imgUrl: 'examples/ship.png'
           }
         });
-        const trackplaybackControl = L.trackplaybackcontrol(trackplayback);
+        // Create track playback control
+        const trackplaybackControl = L.trackplaybackcontrol(trackplayback, {});
         trackplaybackControl.addTo(map);
       }
     }
