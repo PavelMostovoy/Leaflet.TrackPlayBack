@@ -130,7 +130,7 @@ export const Draw = L.Class.extend({
   _trackLayerUpdate: function () {
     if (this._bufferTracks.length) {
       this._clearLayer()
-      this._bufferTracks.forEach(function (element, index) {
+      this._bufferTracks.forEach(function (element) {
         this._drawTrack(element)
       }.bind(this))
     }
@@ -209,7 +209,17 @@ export const Draw = L.Class.extend({
     }
     this._ctx.globalAlpha = options.opacity
     if (options.stroke) {
-      this._ctx.strokeStyle = options.color
+      // Check if there's a color in the info section of the first track point
+      let trackColor = options.color
+      if (trackpoints[0].info && trackpoints[0].info.length) {
+        for (let i = 0, len = trackpoints[0].info.length; i < len; i++) {
+          if (trackpoints[0].info[i].key === 'color') {
+            trackColor = trackpoints[0].info[i].value
+            break
+          }
+        }
+      }
+      this._ctx.strokeStyle = trackColor
       this._ctx.lineWidth = options.weight
       this._ctx.stroke()
     }
@@ -223,6 +233,20 @@ export const Draw = L.Class.extend({
   _drawTrackPointsCanvas: function (trackpoints) {
     const options = this.trackPointOptions
     this._ctx.save()
+
+    // Check if there's a color in the info section of the first track point
+    let trackColor = options.color
+    let trackFillColor = options.fillColor
+    if (trackpoints[0].info && trackpoints[0].info.length) {
+      for (let i = 0, len = trackpoints[0].info.length; i < len; i++) {
+        if (trackpoints[0].info[i].key === 'color') {
+          trackColor = trackpoints[0].info[i].value
+          trackFillColor = trackpoints[0].info[i].value
+          break
+        }
+      }
+    }
+
     for (let i = 0, len = trackpoints.length; i < len; i++) {
       if (trackpoints[i].isOrigin) {
         const latLng = L.latLng(trackpoints[i].lat, trackpoints[i].lng)
@@ -232,11 +256,11 @@ export const Draw = L.Class.extend({
         this._ctx.arc(point.x, point.y, radius, 0, Math.PI * 2, false)
         this._ctx.globalAlpha = options.opacity
         if (options.stroke) {
-          this._ctx.strokeStyle = options.color
+          this._ctx.strokeStyle = trackColor
           this._ctx.stroke()
         }
         if (options.fill) {
-          this._ctx.fillStyle = options.fillColor
+          this._ctx.fillStyle = trackFillColor
           this._ctx.fill()
         }
       }
@@ -273,17 +297,30 @@ export const Draw = L.Class.extend({
     const h = this.targetOptions.height
     const dh = h / 3
 
+    // Check if there's a color in the info section of the track point
+    let shipColor = this.targetOptions.color
+    let shipFillColor = this.targetOptions.fillColor
+    if (trackpoint.info && trackpoint.info.length) {
+      for (let i = 0, len = trackpoint.info.length; i < len; i++) {
+        if (trackpoint.info[i].key === 'color') {
+          shipColor = trackpoint.info[i].value
+          shipFillColor = trackpoint.info[i].value
+          break
+        }
+      }
+    }
+
     this._ctx.save()
-    this._ctx.fillStyle = this.targetOptions.fillColor
-    this._ctx.strokeStyle = this.targetOptions.color
+    this._ctx.fillStyle = shipFillColor
+    this._ctx.strokeStyle = shipColor
     this._ctx.translate(point.x, point.y)
     this._ctx.rotate((Math.PI / 180) * rotate)
     this._ctx.beginPath()
     this._ctx.moveTo(0, 0 - h / 2)
     this._ctx.lineTo(0 - w / 2, 0 - h / 2 + dh)
-    this._ctx.lineTo(0 - w / 2, 0 + h / 2)
-    this._ctx.lineTo(0 + w / 2, 0 + h / 2)
-    this._ctx.lineTo(0 + w / 2, 0 - h / 2 + dh)
+    this._ctx.lineTo(0 - w / 2, h / 2)
+    this._ctx.lineTo(w / 2, h / 2)
+    this._ctx.lineTo(w / 2, 0 - h / 2 + dh)
     this._ctx.closePath()
     this._ctx.fill()
     this._ctx.stroke()
