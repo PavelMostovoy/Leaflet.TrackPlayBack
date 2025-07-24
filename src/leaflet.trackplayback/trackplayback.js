@@ -37,6 +37,9 @@ export const TrackPlayBack = L.Class.extend({
     this.trackController = new TrackController(this.tracks, this.draw)
     this.clock = new Clock(this.trackController, options.clockOptions)
 
+    // Draw tracks immediately with initial time to show pointers without delay
+    this.trackController.drawTracksByTime(this.clock.getCurTime())
+
     this.clock.on('tick', this._tick, this)
   },
   start: function () {
