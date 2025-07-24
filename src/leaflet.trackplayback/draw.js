@@ -5,8 +5,8 @@ import {
 } from './tracklayer'
 
 /**
- * 绘制类
- * 完成轨迹线、轨迹点、目标物的绘制工作
+ * Drawing class
+ * Handles the drawing of track lines, track points, and target objects
  */
 export const Draw = L.Class.extend({
 
@@ -68,7 +68,7 @@ export const Draw = L.Class.extend({
       this._trackPointFeatureGroup = L.featureGroup([]).addTo(map)
     }
 
-    // 目标如果使用图片，先加载图片
+    // If target uses an image, load it first
     if (this.targetOptions.useImg) {
       const img = new Image()
       img.onload = () => {
@@ -140,11 +140,11 @@ export const Draw = L.Class.extend({
     if (!this._showTrackPoint) {
       return
     }
-    let point = e.layerPoint
+    const point = e.layerPoint
     if (this._bufferTracks.length) {
       for (let i = 0, leni = this._bufferTracks.length; i < leni; i++) {
         for (let j = 0, len = this._bufferTracks[i].length; j < len; j++) {
-          let tpoint = this._getLayerPoint(this._bufferTracks[i][j])
+          const tpoint = this._getLayerPoint(this._bufferTracks[i][j])
           if (point.distanceTo(tpoint) <= this.trackPointOptions.radius) {
             this._opentoolTip(this._bufferTracks[i][j])
             return
@@ -163,30 +163,30 @@ export const Draw = L.Class.extend({
       this._map.removeLayer(this._tooltip)
     }
     this._canvas.style.cursor = 'default'
-    let latlng = L.latLng(trackpoint.lat, trackpoint.lng)
-    let tooltip = this._tooltip = L.tooltip(this.toolTipOptions)
+    const latlng = L.latLng(trackpoint.lat, trackpoint.lng)
+    const tooltip = this._tooltip = L.tooltip(this.toolTipOptions)
     tooltip.setLatLng(latlng)
     tooltip.addTo(this._map)
     tooltip.setContent(this._getTooltipText(trackpoint))
   },
 
   _drawTrack: function (trackpoints) {
-    // 画轨迹线
+    // Draw track line
     if (this._showTrackLine) {
       this._drawTrackLine(trackpoints)
     }
-    // 画船
-    let targetPoint = trackpoints[trackpoints.length - 1]
+    // Draw ship
+    const targetPoint = trackpoints[trackpoints.length - 1]
     if (this.targetOptions.useImg && this._targetImg) {
       this._drawShipImage(targetPoint)
     } else {
       this._drawShipCanvas(targetPoint)
     }
-    // 画标注信息
+    // Draw label information
     if (this.targetOptions.showText) {
-      this._drawtxt(`航向：${parseInt(targetPoint.dir)}度`, targetPoint)
+      this._drawtxt(`Heading: ${parseInt(targetPoint.dir)}°`, targetPoint)
     }
-    // 画经过的轨迹点
+    // Draw track points that have been passed
     if (this._showTrackPoint) {
       if (this.trackPointOptions.useCanvas) {
         this._drawTrackPointsCanvas(trackpoints)
@@ -197,14 +197,14 @@ export const Draw = L.Class.extend({
   },
 
   _drawTrackLine: function (trackpoints) {
-    let options = this.trackLineOptions
-    let tp0 = this._getLayerPoint(trackpoints[0])
+    const options = this.trackLineOptions
+    const tp0 = this._getLayerPoint(trackpoints[0])
     this._ctx.save()
     this._ctx.beginPath()
-    // 画轨迹线
+    // Draw track line
     this._ctx.moveTo(tp0.x, tp0.y)
     for (let i = 1, len = trackpoints.length; i < len; i++) {
-      let tpi = this._getLayerPoint(trackpoints[i])
+      const tpi = this._getLayerPoint(trackpoints[i])
       this._ctx.lineTo(tpi.x, tpi.y)
     }
     this._ctx.globalAlpha = options.opacity
@@ -221,13 +221,13 @@ export const Draw = L.Class.extend({
   },
 
   _drawTrackPointsCanvas: function (trackpoints) {
-    let options = this.trackPointOptions
+    const options = this.trackPointOptions
     this._ctx.save()
     for (let i = 0, len = trackpoints.length; i < len; i++) {
       if (trackpoints[i].isOrigin) {
-        let latLng = L.latLng(trackpoints[i].lat, trackpoints[i].lng)
-        let radius = options.radius
-        let point = this._map.latLngToLayerPoint(latLng)
+        const latLng = L.latLng(trackpoints[i].lat, trackpoints[i].lng)
+        const radius = options.radius
+        const point = this._map.latLngToLayerPoint(latLng)
         this._ctx.beginPath()
         this._ctx.arc(point.x, point.y, radius, 0, Math.PI * 2, false)
         this._ctx.globalAlpha = options.opacity
@@ -247,8 +247,8 @@ export const Draw = L.Class.extend({
   _drawTrackPointsSvg: function (trackpoints) {
     for (let i = 0, len = trackpoints.length; i < len; i++) {
       if (trackpoints[i].isOrigin) {
-        let latLng = L.latLng(trackpoints[i].lat, trackpoints[i].lng)
-        let cricleMarker = L.circleMarker(latLng, this.trackPointOptions)
+        const latLng = L.latLng(trackpoints[i].lat, trackpoints[i].lng)
+        const cricleMarker = L.circleMarker(latLng, this.trackPointOptions)
         cricleMarker.bindTooltip(this._getTooltipText(trackpoints[i]), this.toolTipOptions)
         this._trackPointFeatureGroup.addLayer(cricleMarker)
       }
@@ -256,7 +256,7 @@ export const Draw = L.Class.extend({
   },
 
   _drawtxt: function (text, trackpoint) {
-    let point = this._getLayerPoint(trackpoint)
+    const point = this._getLayerPoint(trackpoint)
     this._ctx.save()
     this._ctx.font = '12px Verdana'
     this._ctx.fillStyle = '#000'
@@ -267,11 +267,11 @@ export const Draw = L.Class.extend({
   },
 
   _drawShipCanvas: function (trackpoint) {
-    let point = this._getLayerPoint(trackpoint)
-    let rotate = trackpoint.dir || 0
-    let w = this.targetOptions.width
-    let h = this.targetOptions.height
-    let dh = h / 3
+    const point = this._getLayerPoint(trackpoint)
+    const rotate = trackpoint.dir || 0
+    const w = this.targetOptions.width
+    const h = this.targetOptions.height
+    const dh = h / 3
 
     this._ctx.save()
     this._ctx.fillStyle = this.targetOptions.fillColor
@@ -291,11 +291,11 @@ export const Draw = L.Class.extend({
   },
 
   _drawShipImage: function (trackpoint) {
-    let point = this._getLayerPoint(trackpoint)
-    let dir = trackpoint.dir || 0
-    let width = this.targetOptions.width
-    let height = this.targetOptions.height
-    let offset = {
+    const point = this._getLayerPoint(trackpoint)
+    const dir = trackpoint.dir || 0
+    const width = this.targetOptions.width
+    const height = this.targetOptions.height
+    const offset = {
       x: width / 2,
       y: height / 2
     }
@@ -323,9 +323,9 @@ export const Draw = L.Class.extend({
   },
 
   _clearLayer: function () {
-    let bounds = this._trackLayer.getBounds()
+    const bounds = this._trackLayer.getBounds()
     if (bounds) {
-      let size = bounds.getSize()
+      const size = bounds.getSize()
       this._ctx.clearRect(bounds.min.x, bounds.min.y, size.x, size.y)
     } else {
       this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height)

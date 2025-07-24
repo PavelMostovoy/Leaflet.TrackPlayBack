@@ -8,8 +8,8 @@ import {
 } from './track'
 
 /**
- * 控制器类
- * 控制轨迹和绘制
+ * Controller class
+ * Controls tracks and drawing
  */
 export const TrackController = L.Class.extend({
 
@@ -48,8 +48,8 @@ export const TrackController = L.Class.extend({
   drawTracksByTime: function (time) {
     this._draw.clear()
     for (let i = 0, len = this._tracks.length; i < len; i++) {
-      let track = this._tracks[i]
-      let tps = track.getTrackPointsBeforeTime(time)
+      const track = this._tracks[i]
+      const tps = track.getTrackPointsBeforeTime(time)
       if (tps && tps.length) this._draw.drawTrack(tps)
     }
   },
@@ -58,8 +58,8 @@ export const TrackController = L.Class.extend({
     this._minTime = this._tracks[0].getStartTrackPoint().time
     this._maxTime = this._tracks[0].getEndTrackPoint().time
     for (let i = 0, len = this._tracks.length; i < len; i++) {
-      let stime = this._tracks[i].getStartTrackPoint().time
-      let etime = this._tracks[i].getEndTrackPoint().time
+      const stime = this._tracks[i].getStartTrackPoint().time
+      const etime = this._tracks[i].getEndTrackPoint().time
       if (stime < this._minTime) {
         this._minTime = stime
       }

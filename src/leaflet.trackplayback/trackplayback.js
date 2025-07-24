@@ -23,10 +23,10 @@ import * as Util from './util'
  */
 export const TrackPlayBack = L.Class.extend({
 
-  includes: L.Evented.prototype || L.Mixin.Events,
+  includes: L.Evented.prototype,
 
   initialize: function (data, map, options = {}) {
-    let drawOptions = {
+    const drawOptions = {
       trackPointOptions: options.trackPointOptions,
       trackLineOptions: options.trackLineOptions,
       targetOptions: options.targetOptions,
@@ -110,15 +110,15 @@ export const TrackPlayBack = L.Class.extend({
     this.fire('tick', e)
   },
   _initTracks: function (data) {
-    let tracks = []
+    const tracks = []
     if (Util.isArray(data)) {
       if (Util.isArray(data[0])) {
-        // 多条轨迹
+        // Multiple tracks
         for (let i = 0, len = data.length; i < len; i++) {
           tracks.push(new Track(data[i]))
         }
       } else {
-        // 单条轨迹
+        // Single track
         tracks.push(new Track(data))
       }
     }

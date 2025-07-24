@@ -10,28 +10,27 @@
 <body>
     <div id="echarts" style="height: 600px;"></div>
     <script>
-        window.localStorage.
-        // 基于准备好的dom，初始化echarts实例
+        // Initialize echarts instance based on prepared DOM
         var myChart = echarts.init(document.getElementById('echarts'));
 
-        // 指定图表的配置项和数据
+        // Specify chart configuration and data
         var option = {
             title: {
-                text: '帧率变化监测'
+                text: 'Frame Rate Change Monitoring'
             },
             tooltip: {},
             xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                data: ["Shirts", "Sweaters", "Chiffon", "Pants", "High Heels", "Socks"]
             },
             yAxis: {},
             series: [{
-                name: '销量',
+                name: 'Sales',
                 type: 'bar',
                 data: [5, 20, 36, 10, 10, 20]
             }]
         };
 
-        // 使用刚指定的配置项和数据显示图表。
+        // Display chart using the specified configuration and data.
         myChart.setOption(option);
     </script>
 </body>

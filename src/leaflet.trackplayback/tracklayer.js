@@ -1,7 +1,7 @@
 import L from 'leaflet'
 
 /**
- * 轨迹图层
+ * Track layer
  */
 export const TrackLayer = L.Renderer.extend({
 
@@ -13,7 +13,7 @@ export const TrackLayer = L.Renderer.extend({
   onAdd: function (map) {
     this._container = L.DomUtil.create('canvas', 'leaflet-zoom-animated')
 
-    var pane = map.getPane(this.options.pane)
+    const pane = map.getPane(this.options.pane)
     pane.appendChild(this._container)
 
     this._ctx = this._container.getContext('2d')
@@ -40,13 +40,13 @@ export const TrackLayer = L.Renderer.extend({
 
     L.Renderer.prototype._update.call(this)
 
-    var b = this._bounds
+    const b = this._bounds
 
-    var container = this._container
+    const container = this._container
 
-    var size = b.getSize()
+    const size = b.getSize()
 
-    var m = L.Browser.retina ? 2 : 1
+    const m = L.Browser.retina ? 2 : 1
 
     L.DomUtil.setPosition(container, b.min)
 

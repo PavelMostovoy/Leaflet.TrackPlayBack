@@ -10,7 +10,7 @@ Support track playback, pause, fast forward, fast reverse operation.
 
 ## Requirements
 
-- leaflet version: >1.0.0
+- leaflet version: >=1.9.0
 
 ## Demo
 
@@ -21,7 +21,7 @@ Support track playback, pause, fast forward, fast reverse operation.
 Using npm:
 
 ```shell
-npm i leaflet
+npm i leaflet@^1.9.0
 npm i leaflet-plugin-trackplayback
 ```
 
@@ -39,12 +39,12 @@ const trackplayback = new L.TrackPlayBack(data, map);
 Using script tag:
 
 ```html
-  <link rel="stylesheet" href="./lib/leaflet/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.*/dist/leaflet.css">
 
   <!--Optional (only if you need plaback control)-->
   <link rel="stylesheet" href="../dist/control.playback.css">
 
-  <script src="./lib/leaflet/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.*/dist/leaflet.js"></script>
 
   <!--Optional (only if you need plaback control)-->
   <script src="../dist/control.trackplayback.js"></script>
@@ -233,6 +233,41 @@ destory the trackplayback instance, when call this, the trackplayback instance c
 I collected the frame rate for a while.
 
 ![Frame rate](examples/playback.png)
+
+## Building from Source
+
+If you want to build the project from source, follow these steps:
+
+1. Clone the repository:
+```shell
+git clone https://github.com/linghuam/Leaflet.TrackPlayBack.git
+cd Leaflet.TrackPlayBack
+```
+
+2. Install dependencies:
+```shell
+npm install
+```
+
+3. Build the project:
+```shell
+npm run build
+```
+
+This will create a `dist` folder containing the following artifacts:
+- `leaflet.trackplayback.js` - The main plugin file
+- `control.trackplayback.js` - The playback control plugin (optional)
+- `control.playback.css` - Styles for the playback control
+- Various icon images used by the control
+
+## Leaflet 1.9+ Compatibility
+
+This plugin has been updated to be compatible with Leaflet 1.9+. The following changes were made:
+
+- Updated dependencies in package.json to use Leaflet 1.9+ as a peer dependency
+- Updated the event handling mechanism to use L.Evented instead of the deprecated L.Mixin.Events
+- Updated the webpack configuration to use the latest version of copy-webpack-plugin
+- Updated examples to use Leaflet 1.9+ from CDN
 
 ## Issues
 

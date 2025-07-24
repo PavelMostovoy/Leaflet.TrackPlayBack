@@ -1,17 +1,17 @@
 import L from 'leaflet'
 /**
- * 时钟类，控制轨迹播放动画
+ * Clock class, controls track playback animation
  */
 export const Clock = L.Class.extend({
 
-  includes: L.Evented.prototype || L.Mixin.Events,
+  includes: L.Evented.prototype,
 
   options: {
-    // 播放速度
-    // 计算方法 fpstime * Math.pow(2, this._speed - 1)
-    speed: 12,
-    // 最大播放速度
-    maxSpeed: 65
+    // Playback speed
+    // Calculation method: fpstime * Math.pow(2, this._speed - 1)
+    speed: 10,
+    // Maximum playback speed
+    maxSpeed: 10
   },
 
   initialize: function (trackController, options) {
@@ -96,7 +96,7 @@ export const Clock = L.Class.extend({
     }
   },
 
-  // 计算两帧时间间隔，单位：秒
+  // Calculate time interval between two frames, unit: seconds
   _caculatefpsTime: function (now) {
     let time
     if (this._lastFpsUpdateTime === 0) {
@@ -105,16 +105,16 @@ export const Clock = L.Class.extend({
       time = now - this._lastFpsUpdateTime
     }
     this._lastFpsUpdateTime = now
-    // 将毫秒转换成秒
+    // Convert milliseconds to seconds
     time = time / 1000
     return time
   },
 
   _tick: function () {
-    let now = +new Date()
-    let fpstime = this._caculatefpsTime(now)
+    const now = +new Date()
+    const fpstime = this._caculatefpsTime(now)
     let isPause = false
-    let stepTime = fpstime * Math.pow(2, this._speed - 1)
+    const stepTime = fpstime * Math.pow(2, this._speed - 1)
     this._curTime += stepTime
     if (this._curTime >= this._endTime) {
       this._curTime = this._endTime
