@@ -17,31 +17,25 @@
   <div id='mapid' style=" position: absolute; left: 0; top: 0; right: 0; bottom: 0; width: 100%; height: 100%; overflow: hidden;"></div>
   <script>
     // create map and add baseLayer
-    const map = L.map('mapid').setView([34.36384353883067, 134.09362792968753], 9);
+    const map = L.map('mapid').setView([ 42.684734, 3.034418], 9);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // get data from server
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'examples/data/test.json', true);
-    xhr.onreadystatechange = xhrCallback;
-    xhr.send();
+    const sampleData = [[
+    {lat: 42.684734, lng: 3.034418, time: 1502529980, dir: 320, info: [{key: 'name', value: 'ship1'}]},
+    {lat: 42.685734, lng: 3.035418, time: 1502531980, dir: 330, info: [{key: 'name', value: 'ship1'}]},
+    {lat: 42.686734, lng: 3.036418, time: 1502532980, dir: 340, info: [{key: 'name', value: 'ship1'}]}
+    ],
+      [
+        {lat: 42.685734, lng: 3.035418, time: 1502529980, dir: 320, info: [{key: 'name', value: 'ship2'}]},
+        {lat: 42.686734, lng: 3.036418, time: 1502531990, dir: 330, info: [{key: 'name', value: 'ship2'}]},
+        {lat: 42.687734, lng: 3.037418, time: 1502533110, dir: 340, info: [{key: 'name', value: 'ship2'}]}
+      ]];
 
-    function xhrCallback() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        const data = JSON.parse(xhr.responseText);
-        const trackplayback = L.trackplayback(data, map, {
-          targetOptions: {
-            useImg: true,
-            imgUrl: 'examples/ship.png'
-          }
-        });
-        // Create track playback control
-        const trackplaybackControl = L.trackplaybackcontrol(trackplayback, {});
-        trackplaybackControl.addTo(map);
-      }
-    }
+    const trackplayback = L.trackplayback(sampleData, map);
+    const trackplaybackControl = L.trackplaybackcontrol(trackplayback);
+    trackplaybackControl.addTo(map);
 
   </script>
 </body>
