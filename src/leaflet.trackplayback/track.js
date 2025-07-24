@@ -106,7 +106,8 @@ export const Track = L.Class.extend({
         dir: endPt.dir || dir,
         isOrigin: false,
         time,
-        info: p0.info // Copy info property from the starting point to preserve color information
+        color: p0.color, // Copy color property from the starting point
+        info: p0.info // Copy info property from the starting point to preserve other information
       }
     }
     return endpoint

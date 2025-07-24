@@ -1,8 +1,6 @@
 import L from 'leaflet'
 
-import {
-  TrackLayer
-} from './tracklayer'
+import { TrackLayer } from './tracklayer'
 
 /**
  * Drawing class
@@ -209,17 +207,8 @@ export const Draw = L.Class.extend({
     }
     this._ctx.globalAlpha = options.opacity
     if (options.stroke) {
-      // Check if there's a color in the info section of the first track point
-      let trackColor = options.color
-      if (trackpoints[0].info && trackpoints[0].info.length) {
-        for (let i = 0, len = trackpoints[0].info.length; i < len; i++) {
-          if (trackpoints[0].info[i].key === 'color') {
-            trackColor = trackpoints[0].info[i].value
-            break
-          }
-        }
-      }
-      this._ctx.strokeStyle = trackColor
+      // Use direct color property if available, otherwise use default green or options color
+      this._ctx.strokeStyle = trackpoints[0].color !== undefined ? trackpoints[0].color : ('#00FF00')
       this._ctx.lineWidth = options.weight
       this._ctx.stroke()
     }
@@ -234,18 +223,9 @@ export const Draw = L.Class.extend({
     const options = this.trackPointOptions
     this._ctx.save()
 
-    // Check if there's a color in the info section of the first track point
-    let trackColor = options.color
-    let trackFillColor = options.fillColor
-    if (trackpoints[0].info && trackpoints[0].info.length) {
-      for (let i = 0, len = trackpoints[0].info.length; i < len; i++) {
-        if (trackpoints[0].info[i].key === 'color') {
-          trackColor = trackpoints[0].info[i].value
-          trackFillColor = trackpoints[0].info[i].value
-          break
-        }
-      }
-    }
+    // Use direct color property if available, otherwise use default green or options color
+    const trackColor = trackpoints[0].color !== undefined ? trackpoints[0].color : ('#00FF00')
+    const trackFillColor = trackpoints[0].color !== undefined ? trackpoints[0].color : ('#00FF00')
 
     for (let i = 0, len = trackpoints.length; i < len; i++) {
       if (trackpoints[i].isOrigin) {
@@ -297,18 +277,9 @@ export const Draw = L.Class.extend({
     const h = this.targetOptions.height
     const dh = h / 3
 
-    // Check if there's a color in the info section of the track point
-    let shipColor = this.targetOptions.color
-    let shipFillColor = this.targetOptions.fillColor
-    if (trackpoint.info && trackpoint.info.length) {
-      for (let i = 0, len = trackpoint.info.length; i < len; i++) {
-        if (trackpoint.info[i].key === 'color') {
-          shipColor = trackpoint.info[i].value
-          shipFillColor = trackpoint.info[i].value
-          break
-        }
-      }
-    }
+    // Use direct color property if available, otherwise use default green or options color
+    const shipColor = trackpoint.color !== undefined ? trackpoint.color : ('#00FF00')
+    const shipFillColor = trackpoint.color !== undefined ? trackpoint.color : ('#00FF00')
 
     this._ctx.save()
     this._ctx.fillStyle = shipFillColor

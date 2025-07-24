@@ -23,14 +23,14 @@
     }).addTo(map);
 
     const sampleData = [[
-    {lat: 42.684734, lng: 3.034418, time: 1502529980, dir: 320, info: [{key: 'name', value: 'ship1'}, {key: 'color', value: '#FF5733'}]},
-    {lat: 42.685734, lng: 3.035418, time: 1502531980, dir: 330, info: [{key: 'name', value: 'ship1'}, {key: 'color', value: '#FF5733'}]},
-    {lat: 42.686734, lng: 3.036418, time: 1502532980, dir: 340, info: [{key: 'name', value: 'ship1'}, {key: 'color', value: '#FF5733'}]}
+    {lat: 42.684734, lng: 3.034418, time: 1502529980, dir: 320, color: '#FF5733', info: [{key: 'name', value: 'ship1'}]},
+    {lat: 42.685734, lng: 3.035418, time: 1502531980, dir: 330, color: '#FF5733', info: [{key: 'name', value: 'ship1'}]},
+    {lat: 42.686734, lng: 3.036418, time: 1502532980, dir: 340, color: '#FF5733', info: [{key: 'name', value: 'ship1'}]}
     ],
       [
-        {lat: 42.685734, lng: 3.035418, time: 1502529980, dir: 320, info: [{key: 'name', value: 'ship2'}, {key: 'color', value: '#33A8FF'}]},
-        {lat: 42.686734, lng: 3.036418, time: 1502531990, dir: 330, info: [{key: 'name', value: 'ship2'}, {key: 'color', value: '#33A8FF'}]},
-        {lat: 42.687734, lng: 3.037418, time: 1502533110, dir: 340, info: [{key: 'name', value: 'ship2'}, {key: 'color', value: '#33A8FF'}]}
+        {lat: 42.685734, lng: 3.035418, time: 1502529980, dir: 320, color: '#33A8FF', info: [{key: 'name', value: 'ship2'}]},
+        {lat: 42.686734, lng: 3.036418, time: 1502531990, dir: 330, color: '#33A8FF', info: [{key: 'name', value: 'ship2'}]},
+        {lat: 42.687734, lng: 3.037418, time: 1502533110, dir: 340, color: '#33A8FF', info: [{key: 'name', value: 'ship2'}]}
       ]];
 
     const trackplayback = L.trackplayback(sampleData, map);
